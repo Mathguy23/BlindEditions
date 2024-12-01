@@ -87,6 +87,7 @@ SMODS.BlindEdition {
         name = "",
         text = {"-#1# Hand Size"}
     },
+    contrast = 3,
     set_blind = function(self, blind_on_deck)
         G.hand:change_size(-1)
     end,
@@ -171,7 +172,7 @@ function dollars_to_string(dollars)
     elseif dollars > 0 then
         return string.rep("$", dollars)
     else
-        return "$0"
+        return ""
     end
 end
 
