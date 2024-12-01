@@ -25,7 +25,11 @@ payload = '''local a_table = {
 }
 if G.GAME.blind_edition and G.GAME.blind_edition[type] then
     local edi = G.P_BLIND_EDITIONS[G.GAME.blind_edition[type]]
-    if edi.blind_shader then
+    if edi.blind_shader and (type_(edi.blind_shader) == "table") then
+        for i2, j2 in ipairs(edi.blind_shader) do
+            a_table[#a_table + 1] = {shader = j2}
+        end
+    elseif edi.blind_shader then
         a_table[#a_table + 1] = {shader = edi.blind_shader}
     end
 end
@@ -49,7 +53,11 @@ pattern = '''self.children.animatedSprite:draw_shader('dissolve')'''
 position = 'after'
 payload = '''if G.GAME.blind_edition and G.GAME.blind_edition[G.GAME.blind_on_deck] then
     local edi = G.P_BLIND_EDITIONS[G.GAME.blind_edition[G.GAME.blind_on_deck]]
-    if edi.blind_shader then
+    if edi.blind_shader and (type(edi.blind_shader) == "table") then
+        for i2, j2 in ipairs(edi.blind_shader) do
+            self.children.animatedSprite:draw_shader(j2)
+        end
+    elseif edi.blind_shader then
         self.children.animatedSprite:draw_shader(edi.blind_shader)
     end
 end'''

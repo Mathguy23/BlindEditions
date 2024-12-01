@@ -61,7 +61,11 @@ function blind_edition_popup()
             {shader = 'dissolve', shadow_height = 0.05},
             {shader = 'dissolve'},
         }
-        if v.blind_shader then
+        if v.blind_shader and (type(v.blind_shader) == "table") then
+            for i, j in ipairs(v.blind_shader) do
+                a_table[#a_table + 1] = {shader = j}
+            end
+        elseif v.blind_shader then
             a_table[#a_table + 1] = {shader = v.blind_shader}
         end
         temp_blind:define_draw_steps(a_table)
