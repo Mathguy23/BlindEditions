@@ -87,7 +87,6 @@ SMODS.BlindEdition {
         name = "",
         text = {"-#1# Hand Size"}
     },
-    contrast = 3,
     set_blind = function(self, blind_on_deck)
         G.hand:change_size(-1)
     end,
