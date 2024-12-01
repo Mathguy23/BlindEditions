@@ -124,10 +124,12 @@ pattern = '''local loc_target = localize{type = 'raw_descriptions', key = self.c
 position = 'after'
 payload = '''if G.GAME.blind_edition and G.GAME.blind_edition[G.GAME.blind_on_deck] then
     local edi = G.P_BLIND_EDITIONS[G.GAME.blind_edition[G.GAME.blind_on_deck]]
-    local loc_vars = edi.loc_vars and (type(edi.loc_vars) == "function") and edi:loc_vars(G.GAME.blind_on_deck) or {}
-    local edi_desc = localize{type = 'raw_descriptions', key = edi.key, set = 'BlindEdition', vars = loc_vars}
-    for i, j in ipairs(edi_desc) do
-        table.insert(loc_target, j)
+    if edi.has_text ~= false then
+        local loc_vars = edi.loc_vars and (type(edi.loc_vars) == "function") and edi:loc_vars(G.GAME.blind_on_deck) or {}
+        local edi_desc = localize{type = 'raw_descriptions', key = edi.key, set = 'BlindEdition', vars = loc_vars}
+        for i, j in ipairs(edi_desc) do
+            table.insert(loc_target, j)
+        end
     end
 end'''
 match_indent = true
