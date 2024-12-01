@@ -248,7 +248,6 @@ SMODS.BlindEdition {
         name = "Polychrome",
         text = {"-#1# Hand"}
     },
-    contrast = 3,
     set_blind = function(self, blind_on_deck)
         if G.GAME.current_round.hands_left > 1 then
             ease_hands_played(-1)
@@ -266,25 +265,26 @@ SMODS.BlindEdition {
 SMODS.BlindEdition {
     key = 'negative',
     blind_shader = 'negative',
-    weight = 0.1,
+    weight = 0.01,
     loc_txt = {
         name = "Negative",
         text = {
-            "X-#1# Blind Reward",
-            "Unskippable"
+            "X#1# Blind Size",
+            "+#2# Joker Slot"
         }
     },
-    dollars_mod = function(self, dollars)
-        return -(dollars or 0)
-    end,
+    blind_size_mult = 8,
     loc_vars = function(self, blind_on_deck)
-        return {1}
+        return {8, 1}
     end,
     collection_loc_vars = function(self, blind_on_deck)
-        return {1}
+        return {8, 1}
     end,
-    no_skip = true
-
+    defeat = function(self, blind_on_deck)
+        if G.jokers then 
+            G.jokers.config.card_limit = G.jokers.config.card_limit + 1
+        end
+    end,
 }
 
 function set_blind_editions(just_boss)
