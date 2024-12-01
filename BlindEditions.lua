@@ -231,7 +231,7 @@ SMODS.BlindEdition {
         return {1}
     end,
     set_blind = function(self, blind_on_deck)
-        if G.GAME.current_round.hands_left > 0 then
+        if G.GAME.current_round.hands_left > 1 then
             ease_hands_played(-1)
         end
     end,
