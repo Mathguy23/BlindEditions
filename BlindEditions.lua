@@ -221,7 +221,7 @@ SMODS.BlindEdition {
     blind_shader = 'holo',
     loc_txt = {
         name = "Holographic",
-        text = {"-#1# Hand"}
+        text = {"-#1# Hand Size"}
     },
     weight = 0.3,
     loc_vars = function(self, blind_on_deck)
@@ -231,11 +231,12 @@ SMODS.BlindEdition {
         return {1}
     end,
     set_blind = function(self, blind_on_deck)
-        if G.GAME.current_round.hands_left > 1 then
-            ease_hands_played(-1)
-        end
+        G.hand:change_size(-1)
     end,
-    dollars_mod = 2
+    defeat = function(self, blind_on_deck)
+        G.hand:change_size(1)
+    end,
+    dollars_mod = 3
 }
 
 SMODS.BlindEdition {
@@ -245,14 +246,13 @@ SMODS.BlindEdition {
     dollars_mod = 3,
     loc_txt = {
         name = "Polychrome",
-        text = {"-#1# Hand Size"}
+        text = {"-#1# Hand"}
     },
     contrast = 3,
     set_blind = function(self, blind_on_deck)
-        G.hand:change_size(-1)
-    end,
-    defeat = function(self, blind_on_deck)
-        G.hand:change_size(1)
+        if G.GAME.current_round.hands_left > 1 then
+            ease_hands_played(-1)
+        end
     end,
     loc_vars = function(self, blind_on_deck)
         return {1}
@@ -275,7 +275,7 @@ SMODS.BlindEdition {
         }
     },
     dollars_mod = function(self, dollars)
-        return -dollars
+        return -(dollars or 0)
     end,
     loc_vars = function(self, blind_on_deck)
         return {1}
