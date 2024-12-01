@@ -309,3 +309,11 @@ pattern = '''if num_dollars < 0 then dollars_to_loop = num_dollars*-1 else dolla
 position = 'after'
 payload = '''if num_dollars < 0 then dollars_to_loop = dollars_to_loop + 1 end'''
 match_indent = true
+
+[[patches]]
+[patches.pattern]
+target = 'functions/button_callbacks.lua'
+pattern = '''G.FUNCS.reroll_boss = function(e)'''
+position = 'after'
+payload = '''   set_blind_editions(true)'''
+match_indent = true
