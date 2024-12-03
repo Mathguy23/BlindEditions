@@ -292,11 +292,14 @@ SMODS.BlindEdition {
 }
 
 function set_blind_editions(just_boss)
-    G.GAME.blind_edition = {
-        Small = "",
-        Big = "",
-        Boss = "",
-    }
+    if not G.GAME.blind_edition then
+        G.GAME.blind_edition = {
+            Small = "",
+            Big = "",
+            Boss = "",
+        }
+    end
+    G.GAME.blind_edition.first_ante = nil
     for i, j in pairs(G.GAME.blind_edition) do
         if not just_boss or (i == "Boss") then
             local total_weight = 0

@@ -9,6 +9,9 @@ target = 'game.lua'
 pattern = '''chips_text = '0','''
 position = 'after'
 payload = '''blind_edition = {
+    Small = "",
+    Big = "",
+    Boss = "",
     first_ante = true
 },
 '''
