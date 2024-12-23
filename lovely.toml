@@ -41,16 +41,6 @@ match_indent = true
 
 [[patches]]
 [patches.pattern]
-target = 'functions/common_events.lua'
-pattern = '''function reset_blinds()'''
-position = 'after'
-payload = '''if (G.GAME.round_resets.blind_states.Boss == 'Defeated') or (G.GAME.blind_edition.first_ante) then
-    set_blind_editions()
-end'''
-match_indent = true
-
-[[patches]]
-[patches.pattern]
 target = 'blind.lua'
 pattern = '''self.children.animatedSprite:draw_shader('dissolve')'''
 position = 'after'

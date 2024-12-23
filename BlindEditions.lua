@@ -263,7 +263,20 @@ SMODS.BlindEdition {
     collection_loc_vars = function(self, blind_on_deck)
         return {1}
     end,
-
+    in_pool = function(self, blind_type)
+        boss_blind = G.GAME.round_resets.blind_choices.Boss 
+        if (boss_blind == "bl_needle") or (boss_blind == "bl_cruel_sword") or (boss_blind == "bl_jen_one") then
+            return false
+        end
+        if (boss_blind == "bl_cry_obsidian_orb") then
+            for i, j in pairs(G.GAME.defeated_blinds) do
+                if (i == "bl_needle") or (i == "bl_cruel_sword") or (i == "bl_jen_one") then
+                    return false
+                end
+            end
+        end
+        return true
+    end
 }
 
 SMODS.BlindEdition {
@@ -348,6 +361,16 @@ function dollars_to_string(dollars)
         return string.rep("$", dollars)
     else
         return ""
+    end
+end
+
+local old_reset_blinds = reset_blinds
+function reset_blinds()
+    if (G.GAME.round_resets.blind_states.Boss == 'Defeated') or (G.GAME.blind_edition.first_ante) then
+        old_reset_blinds()
+        set_blind_editions()
+    else
+        old_reset_blinds()
     end
 end
 
