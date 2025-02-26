@@ -121,8 +121,8 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
-pattern = '''local loc_target = localize{type = 'raw_descriptions', key = self.config.blind.key, set = 'Blind', vars = loc_vars or self.config.blind.vars}'''
-position = 'after'
+pattern = '''if loc_target then'''
+position = 'before'
 payload = '''if G.GAME.blind_edition and G.GAME.blind_edition[G.GAME.blind_on_deck] then
     local edi = G.P_BLIND_EDITIONS[G.GAME.blind_edition[G.GAME.blind_on_deck]]
     if edi.has_text ~= false then
