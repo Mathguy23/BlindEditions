@@ -59,7 +59,7 @@ match_indent = true
 [[patches]]
 [patches.pattern]
 target = 'blind.lua'
-pattern = '''if self.name == 'The Eye' and not reset then'''
+pattern = '''--add new debuffs'''
 position = 'before'
 payload = '''if G.GAME.blind_edition and G.GAME.blind_edition[G.GAME.blind_on_deck] and not reset and (blind and blind.name and blind.name ~= '') then
     local edi = G.P_BLIND_EDITIONS[G.GAME.blind_edition[G.GAME.blind_on_deck]]
