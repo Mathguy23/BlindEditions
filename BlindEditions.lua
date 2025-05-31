@@ -4,7 +4,7 @@
 --- PREFIX: ble
 --- MOD_AUTHOR: [mathguy]
 --- MOD_DESCRIPTION: Blinds may now have editions.
---- VERSION: 1.0.0
+--- VERSION: 1.0.1
 --- PRIORITY: -100
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -194,7 +194,7 @@ SMODS.BlindEdition = SMODS.GameObject:extend {
 
 SMODS.BlindEdition {
     key = 'base',
-    weight = 4,
+    weight = 0,
     has_text = false,
     loc_txt = {
         name = "Base",
@@ -253,9 +253,12 @@ SMODS.BlindEdition {
         text = {"-#1# Hand"}
     },
     set_blind = function(self, blind_on_deck)
-        if G.GAME.current_round.hands_left > 1 then
-            ease_hands_played(-1)
-        end
+            G.E_MANAGER:add_event(Event({trigger = 'immediate',func = function()
+                if G.GAME.current_round.hands_left > 1 then
+                    ease_hands_played(-1)
+                end
+                return true
+            end}))
     end,
     loc_vars = function(self, blind_on_deck)
         return {1}
@@ -286,8 +289,8 @@ SMODS.BlindEdition {
     loc_txt = {
         name = "Negative",
         text = {
-            "X#1# Blind Size",
-            "+#2# Joker Slot"
+            "X#1# Blind Size, +#2#",
+            "Joker Slot on win"
         }
     },
     blind_size_mult = 8,
@@ -314,11 +317,13 @@ function set_blind_editions(just_boss)
     end
     G.GAME.blind_edition.first_ante = nil
     for i, j in pairs(G.GAME.blind_edition) do
-        if not just_boss or (i == "Boss") then
+        if pseudorandom(pseudoseed('do_base')) < 4 / 5 then
+            G.GAME.blind_edition[i] = 'ble_ble_base'
+        elseif not just_boss or (i == "Boss") then
             local total_weight = 0
             local weight_table = {}
             for i2, j2 in pairs(G.P_BLIND_EDITIONS or {}) do
-                if j2.in_pool and (type(j2.in_pool) == "function") and j2:in_pool(i) then
+                if (j2.key ~= 'ble_ble_base') and j2.in_pool and (type(j2.in_pool) == "function") and j2:in_pool(i) then
                     local weight = j2.get_weight and (type(j2.get_weight) == "function") and j2:get_weight(i) or j2.weight or 1
                     table.insert(weight_table, {key = j2.key, weight = weight})
                     total_weight = total_weight + weight
