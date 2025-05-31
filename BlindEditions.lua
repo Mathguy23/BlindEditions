@@ -240,7 +240,7 @@ SMODS.BlindEdition {
     defeat = function(self, blind_on_deck)
         G.hand:change_size(1)
     end,
-    dollars_mod = 3
+    dollars_mod = 2
 }
 
 SMODS.BlindEdition {
