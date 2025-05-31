@@ -4,7 +4,7 @@
 --- PREFIX: ble
 --- MOD_AUTHOR: [mathguy]
 --- MOD_DESCRIPTION: Blinds may now have editions.
---- VERSION: 1.0.1
+--- VERSION: 1.0.2
 --- PRIORITY: -100
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -317,13 +317,21 @@ function set_blind_editions(just_boss)
     end
     G.GAME.blind_edition.first_ante = nil
     for i, j in pairs(G.GAME.blind_edition) do
-        if pseudorandom(pseudoseed('do_base')) < 4 / 5 then
-            G.GAME.blind_edition[i] = 'ble_ble_base'
+        if G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "foil") then
+            G.GAME.blind_edition[i] = 'ble_foil'
+        elseif G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "holographic") then
+            G.GAME.blind_edition[i] = 'ble_holographic'
+        elseif G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "polychrome") then
+            G.GAME.blind_edition[i] = 'ble_polychrome'
+        elseif G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "negative") then
+            G.GAME.blind_edition[i] = 'ble_negative'
+        elseif pseudorandom(pseudoseed('do_base')) < 4 / 5 then
+            G.GAME.blind_edition[i] = 'ble_base'
         elseif not just_boss or (i == "Boss") then
             local total_weight = 0
             local weight_table = {}
             for i2, j2 in pairs(G.P_BLIND_EDITIONS or {}) do
-                if (j2.key ~= 'ble_ble_base') and j2.in_pool and (type(j2.in_pool) == "function") and j2:in_pool(i) then
+                if (j2.key ~= 'ble_base') and j2.in_pool and (type(j2.in_pool) == "function") and j2:in_pool(i) then
                     local weight = j2.get_weight and (type(j2.get_weight) == "function") and j2:get_weight(i) or j2.weight or 1
                     table.insert(weight_table, {key = j2.key, weight = weight})
                     total_weight = total_weight + weight
@@ -342,7 +350,7 @@ function set_blind_editions(just_boss)
                 end
                 G.GAME.blind_edition[i] = selected
             else
-                G.GAME.blind_edition[i] = 'ble_ble_base'
+                G.GAME.blind_edition[i] = 'ble_base'
             end
         end
     end
