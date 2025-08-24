@@ -4,7 +4,7 @@
 --- PREFIX: ble
 --- MOD_AUTHOR: [mathguy]
 --- MOD_DESCRIPTION: Blinds may now have editions.
---- VERSION: 1.0.2
+--- VERSION: 1.0.2a
 --- PRIORITY: -100
 ----------------------------------------------
 ------------MOD CODE -------------------------
@@ -15,8 +15,7 @@ end
 
 SMODS.current_mod.custom_collection_tabs = function()
 	return { UIBox_button {
-        count = G.ACTIVE_MOD_UI and modsCollectionTally(G.P_BLIND_EDITIONS),
-        button = 'your_collection_blind_editions', label = {"Blind Editions"}, count = G.ACTIVE_MOD_UI and modsCollectionTally(G.P_BLIND_EDITIONS), minw = 5, id = 'your_collection_blind_editions'
+        button = 'your_collection_blind_editions', label = {"Blind Editions"}, minw = 5, id = 'your_collection_blind_editions'
     }}
 end
 
@@ -325,6 +324,8 @@ function set_blind_editions(just_boss)
             G.GAME.blind_edition[i] = 'ble_polychrome'
         elseif G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "negative") then
             G.GAME.blind_edition[i] = 'ble_negative'
+        elseif G.GAME.modifiers and (G.GAME.modifiers.cry_force_edition == "cry_glitched") then
+            G.GAME.blind_edition[i] = 'ble_cry_glitched'
         elseif pseudorandom(pseudoseed('do_base')) < 4 / 5 then
             G.GAME.blind_edition[i] = 'ble_base'
         elseif not just_boss or (i == "Boss") then
